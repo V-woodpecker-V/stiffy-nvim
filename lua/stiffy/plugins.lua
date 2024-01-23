@@ -75,5 +75,38 @@ local M = {
         dependencies = {"nvim-tree/nvim-web-devicons"},
         opts= {},
     },
+    {
+        "rcarriga/nvim-dap-ui",
+        dependencies = {
+            "mfussenegger/nvim-dap",
+        },
+    },
+    {
+        "folke/neodev.nvim",
+        opts = {
+            library = {
+                plugins = {
+                    "nvim-dap-ui"
+                },
+                types = true,
+            },
+        },
+    },
+    {
+        "jose-elias-alvarez/null-ls.nvim",
+        dependencies = {
+            "neovim/nvim-lspconfig",
+        },
+        config = function ()
+          local null_ls = require("null-ls")
+          null_ls.setup(
+          {
+              sources = {
+                  null_ls.builtins.formatting.csharpier,
+            }
+          }
+          )
+        end
+    },
 }
 return M

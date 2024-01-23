@@ -44,6 +44,26 @@ local M = {
             name = "marksman",
             opts = nil,
             treesitter_name = "markdown_inline"
+        },
+        {
+            name = "gdscript",
+            opts = nil,
+            treesitter_name = "gdscript",
+        },
+        {
+            name = "glslls",
+            opts = nil,
+            treesitter_name = "glsl",
+        },
+        {
+            name = "gopls",
+            opts = nil,
+            treesitter_name = "go",
+        },
+        {
+            name = "csharp_ls",
+            opts = nil,
+            treesitter_name = "c_sharp",
         }
     },
 }
