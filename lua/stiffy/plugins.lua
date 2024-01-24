@@ -33,12 +33,33 @@ local M = {
         config = function()
             local cmp_autopairs = require("nvim-autopairs.completion.cmp")
             local cmp = require("cmp")
-            cmp.setup(require("stiffy.config.nvim-cmp"))
+            cmp.setup {
+                snippet = {
+                    expand = function(args)
+                        vim.fn["vsnip#anonymous"](args.body)
+                    end
+                },
+                mapping = cmp.mapping.preset.insert({
+                    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                    ['<C-Space>'] = cmp.mapping.complete(),
+                    ['<C-e>'] = cmp.mapping.abort(),
+                    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                }),
+                sources = cmp.config.sources({
+                    { name = 'nvim_lsp' },
+                    { name = 'vsnip' },
+                    { name = 'buffer' },
+                    { name = 'path' },
+                    { name = 'cmdline' },
+                }, {
+                    {name = "buffer"},
+                })
+            }
             cmp.event:on(
                 "confirm_done",
                 cmp_autopairs.on_confirm_done()
             )
-
         end,
     },
     {
@@ -51,15 +72,58 @@ local M = {
         dependencies = {
             "neovim/nvim-lspconfig",
         },
-        opts = {
-            ensure_installed = require("stiffy.lsp_info").get_names(),
-        },
+        config = function()
+            local m_lspconfig = require("mason-lspconfig")
+            m_lspconfig.setup()
+            m_lspconfig.setup_handlers {
+                function (server_name)
+                    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+                    require("lspconfig")[server_name].setup {
+                        capabilities = capabilities,
+                    }
+                end,
+                ["lua_ls"] = function()
+                    require("lspconfig")["lua_ls"].setup{
+                        settings = {
+                            Lua = {
+                                runtime = {
+                                    version = "LuaJIT",
+                                },
+                                diagnostics = {
+                                    globals = {
+                                        "vim",
+                                        "require",
+                                    },
+                                },
+                                workspace = {
+                                    library = vim.api.nvim_get_runtime_file("", true),
+                                },
+                                telementry = {
+                                enable = false,
+                                },
+                            },
+                        },
+                    }
+                end,
+
+            }
+        end,
     },
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         opts = {
-            ensure_installed = require("stiffy.lsp_info").get_treesitter_names()
+            ensure_installed = {
+                "lua",
+                "python",
+                "rust",
+                "typescript",
+                "markdown_inline",
+                "gdscript",
+                "glsl",
+                "go",
+                "c_sharp",
+            }
         },
     },
     {
@@ -93,19 +157,20 @@ local M = {
         },
     },
     {
-        "jose-elias-alvarez/null-ls.nvim",
+        "jay-babu/mason-null-ls.nvim",
+        event = {"BufRead", "BufNewFile"},
         dependencies = {
-            "neovim/nvim-lspconfig",
+            "williamboman/mason.nvim",
+            "jose-elias-alvarez/null-ls.nvim",
         },
-        config = function ()
-          local null_ls = require("null-ls")
-          null_ls.setup(
-          {
-              sources = {
-                  null_ls.builtins.formatting.csharpier,
-            }
-          }
-          )
+        config = function()
+            local null_ls = require("null-ls")
+            null_ls.setup(
+            {
+                sources = {
+                    null_ls.builtins.formatting.csharpier,
+                }
+            })
         end
     },
 }
