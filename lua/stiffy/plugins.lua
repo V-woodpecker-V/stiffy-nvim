@@ -24,7 +24,6 @@ local M = {
             "hrsh7th/vim-vsnip",
 
             "hrsh7th/nvim-cmp",
-            "hrsh7th/cmp-cmdline",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-nvim-lsp",
@@ -51,7 +50,6 @@ local M = {
                     { name = 'vsnip' },
                     { name = 'buffer' },
                     { name = 'path' },
-                    { name = 'cmdline' },
                 }, {
                     {name = "buffer"},
                 })
@@ -60,6 +58,19 @@ local M = {
                 "confirm_done",
                 cmp_autopairs.on_confirm_done()
             )
+        end,
+    },
+    {
+        "hrsh7th/cmp-cmdline",
+        config = function ()
+            local cmp = require("cmp")
+            cmp.setup.cmdline {
+                sources = cmp.config.sources({
+                    { name = 'cmdline' },
+                }, {
+                    {name = "cmdline"},
+                })
+            }
         end,
     },
     {

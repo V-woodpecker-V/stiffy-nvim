@@ -13,7 +13,7 @@ vim.opt.wrap = false
 vim.opt.incsearch = true
 
 vim.opt.scrolloff = 8
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "130"
 
 vim.opt.clipboard = "unnamedplus"
 
