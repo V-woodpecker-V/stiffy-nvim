@@ -55,3 +55,7 @@ end, {noremap = true, silent = true})
 vim.keymap.set("n", "<leader>cdd",function()
     vim.cmd("lcd ..")
 end, {noremap = true, silent = true})
+
+vim.keymap.set("n", "bn", ":bnext<CR>")
+vim.keymap.set("n", "bN", ":bprevious<CR>")
+
