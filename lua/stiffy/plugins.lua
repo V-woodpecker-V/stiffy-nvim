@@ -48,7 +48,7 @@ local M = {
                     { name = 'buffer' },
                     { name = 'path' },
                 }, {
-                    {name = "buffer"},
+                    { name = "buffer" },
                 })
             }
             cmp.event:on(
@@ -59,13 +59,13 @@ local M = {
     },
     {
         "hrsh7th/cmp-cmdline",
-        config = function ()
+        config = function()
             local cmp = require("cmp")
             cmp.setup.cmdline {
                 sources = cmp.config.sources({
                     { name = 'cmdline' },
                 }, {
-                    {name = "cmdline"},
+                    { name = "cmdline" },
                 })
             }
         end,
@@ -84,14 +84,22 @@ local M = {
             local m_lspconfig = require("mason-lspconfig")
             m_lspconfig.setup()
             m_lspconfig.setup_handlers {
-                function (server_name)
+                function(server_name)
                     local capabilities = require("cmp_nvim_lsp").default_capabilities()
                     require("lspconfig")[server_name].setup {
                         capabilities = capabilities,
+                        root_dir = function()
+                            local lspconfig = require("lspconfig")
+                            return lspconfig.util.root_pattern(".git")(vim.fn.getcwd()) or
+                                lspconfig.util.root_pattern("package.json")(vim.fn.getcwd()) or
+                                lspconfig.util.root_pattern("pyright.json")(vim.fn.getcwd()) or
+                                lspconfig.util.root_pattern("Cargo.toml")(vim.fn.getcwd()) or
+                                vim.fn.getcwd()
+                        end
                     }
                 end,
                 ["lua_ls"] = function()
-                    require("lspconfig")["lua_ls"].setup{
+                    require("lspconfig")["lua_ls"].setup {
                         settings = {
                             Lua = {
                                 runtime = {
@@ -107,13 +115,28 @@ local M = {
                                     library = vim.api.nvim_get_runtime_file("", true),
                                 },
                                 telementry = {
-                                enable = false,
+                                    enable = false,
                                 },
                             },
                         },
                     }
                 end,
-
+                ["gopls"] = function()
+                    lspconfig = require("lspconfig")
+                    require("lspconfig")["gopls"].setup {
+                        cmd = { "gopls" },
+                        filetypes = { "go", "gomod" },
+                        root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
+                        settings = {
+                            gopls = {
+                                analyses = {
+                                    unusedparams = true,
+                                },
+                                staticcheck = true,
+                            },
+                        },
+                    }
+                end
             }
         end,
     },
@@ -131,6 +154,19 @@ local M = {
                 "glsl",
                 "go",
                 "c_sharp",
+                "c",
+                "cpp",
+                "tsx",
+                "yaml",
+                "json",
+                "html",
+                "graphql",
+                "gdshader",
+                "dockerfile",
+                "css",
+                "sql",
+                "regex",
+                "kotlin",
             }
         },
     },
@@ -144,8 +180,8 @@ local M = {
     },
     {
         "folke/trouble.nvim",
-        dependencies = {"nvim-tree/nvim-web-devicons"},
-        opts= {},
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {},
     },
     {
         "rcarriga/nvim-dap-ui",
@@ -166,7 +202,7 @@ local M = {
     },
     {
         "jay-babu/mason-null-ls.nvim",
-        event = {"BufRead", "BufNewFile"},
+        event = { "BufRead", "BufNewFile" },
         dependencies = {
             "williamboman/mason.nvim",
             "jose-elias-alvarez/null-ls.nvim",
@@ -174,11 +210,11 @@ local M = {
         config = function()
             local null_ls = require("null-ls")
             null_ls.setup(
-            {
-                sources = {
-                    null_ls.builtins.formatting.csharpier,
-                }
-            })
+                {
+                    sources = {
+                        null_ls.builtins.formatting.csharpier,
+                    }
+                })
         end
     },
     {
@@ -189,6 +225,14 @@ local M = {
         opts = {
             options = { theme = "ayu_dark" }
         }
+    },
+    {
+        "iamcco/markdown_preview.nvim",
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        ft = {"markown"},
+        build = function ()
+            vim.fn["mkdp#util#install"]()
+        end,
     },
 }
 return M

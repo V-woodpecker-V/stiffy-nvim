@@ -59,3 +59,20 @@ end, {noremap = true, silent = true})
 vim.keymap.set("n", "bn", ":bnext<CR>")
 vim.keymap.set("n", "bN", ":bprevious<CR>")
 
+
+vim.keymap.set("n", "<leader>sj", ":resize -2<CR>")
+vim.keymap.set("n", "<leader>SJ", ":resize -20<CR>")
+
+vim.keymap.set("n", "<leader>sk", ":resize +2<CR>")
+vim.keymap.set("n", "<leader>SK", ":resize +20<CR>")
+
+vim.keymap.set("n", "<leader>sh", ":vertical resize -2<CR>")
+vim.keymap.set("n", "<leader>SH", ":vertical resize -20<CR>")
+
+vim.keymap.set("n", "<leader>sl", ":vertical resize +2<CR>")
+vim.keymap.set("n", "<leader>SL", ":vertical resize +20<CR>")
+
+-- terminal mode shortcuts
+vim.keymap.set("t", "<C-Space>", "<C-\\><C-n>")
+
+
