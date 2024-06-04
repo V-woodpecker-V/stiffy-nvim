@@ -227,7 +227,7 @@ local M = {
         }
     },
     {
-        "iamcco/markdown_preview.nvim",
+        "iamcco/markdown-preview.nvim",
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
         ft = {"markown"},
         build = function ()
