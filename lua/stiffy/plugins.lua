@@ -167,6 +167,7 @@ local M = {
                 "sql",
                 "regex",
                 "kotlin",
+                "just",
             }
         },
     },
