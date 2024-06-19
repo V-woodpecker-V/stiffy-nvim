@@ -72,7 +72,6 @@ local M = {
     },
     {
         "williamboman/mason.nvim",
-        lazy = false,
         opts = {},
     },
     {
@@ -172,14 +171,6 @@ local M = {
         },
     },
     {
-        "nvim-telescope/telescope.nvim",
-        branch = "0.1.x",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "sharkdp/fd"
-        },
-    },
-    {
         "folke/trouble.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
         opts = {},
@@ -230,10 +221,26 @@ local M = {
     {
         "iamcco/markdown-preview.nvim",
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        ft = {"markown"},
-        build = function ()
+        ft = { "markown" },
+        build = function()
             vim.fn["mkdp#util#install"]()
         end,
+    },
+    {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            {
+                "nvim-telescope/telescope.nvim",
+                branch = "0.1.x",
+                dependencies = {
+                    "nvim-lua/plenary.nvim",
+                    "sharkdp/fd"
+                },
+            },
+        },
+        config = true
     },
 }
 return M
