@@ -1,5 +1,4 @@
 vim.opt.nu = true
-vim.opt.relativenumber = false
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -12,9 +11,7 @@ vim.opt.wrap = false
 
 vim.opt.incsearch = true
 
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 4
 vim.opt.colorcolumn = "130"
-
-vim.opt.clipboard = "unnamedplus"
 
 vim.g.mapleader = " "

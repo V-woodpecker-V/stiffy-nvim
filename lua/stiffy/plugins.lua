@@ -1,5 +1,4 @@
 local M = {
-    "folke/which-key.nvim",
     "nvim-tree/nvim-web-devicons",
     {
         "Shatur/neovim-ayu",
@@ -121,7 +120,7 @@ local M = {
                     }
                 end,
                 ["gopls"] = function()
-                    lspconfig = require("lspconfig")
+                    local lspconfig = require("lspconfig")
                     require("lspconfig")["gopls"].setup {
                         cmd = { "gopls" },
                         filetypes = { "go", "gomod" },
@@ -171,51 +170,34 @@ local M = {
         },
     },
     {
-        "folke/trouble.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        opts = {},
-    },
-    {
-        "rcarriga/nvim-dap-ui",
-        dependencies = {
-            "mfussenegger/nvim-dap",
-        },
-    },
-    {
-        "folke/neodev.nvim",
-        opts = {
-            library = {
-                plugins = {
-                    "nvim-dap-ui"
-                },
-                types = true,
-            },
-        },
-    },
-    {
-        "jay-babu/mason-null-ls.nvim",
-        event = { "BufRead", "BufNewFile" },
-        dependencies = {
-            "williamboman/mason.nvim",
-            "jose-elias-alvarez/null-ls.nvim",
-        },
-        config = function()
-            local null_ls = require("null-ls")
-            null_ls.setup(
-                {
-                    sources = {
-                        null_ls.builtins.formatting.csharpier,
-                    }
-                })
-        end
-    },
-    {
         "nvim-lualine/lualine.nvim",
         dependencies = {
-            "nvim-tree/nvim-web-devicons"
+            "nvim-tree/nvim-web-devicons",
+            "arkav/lualine-lsp-progress"
         },
         opts = {
-            options = { theme = "ayu_dark" }
+            options = {
+                theme = "ayu_dark",
+                icons_enabled = true,
+                component_separators = { left = '', right = '' },
+                section_separators = { left = '', right = '' },
+            },
+            sections = {
+                lualine_a = { 'mode' },
+                lualine_b = { 'branch', 'diff', 'diagnostics' },
+                lualine_c = { { 'filename', path = 1 }, 'lsp_progress' },
+                lualine_x = { 'encoding', 'fileformat', 'filetype' },
+                lualine_y = { 'progress' },
+                lualine_z = { 'location' }
+            },
+            inactive_sections = {
+                lualine_a = {},
+                lualine_b = {},
+                lualine_c = { 'filename' },
+                lualine_x = { 'location' },
+                lualine_y = {},
+                lualine_z = {}
+            },
         }
     },
     {
@@ -236,8 +218,23 @@ local M = {
                 branch = "0.1.x",
                 dependencies = {
                     "nvim-lua/plenary.nvim",
-                    "sharkdp/fd"
+                    "sharkdp/fd",
+                    "nvim-telescope/telescope-ui-select.nvim",
+                    "nvim-telescope/telescope-fzy-native.nvim",
                 },
+                config = function ()
+                    local telescope = require("telescope")
+                    telescope.setup {
+                        extensions = {
+                            fzy_native = {
+                                override_generic_sorter = false,
+                                override_file_sorter = true,
+                            },
+                        },
+                    }
+                    telescope.load_extension('ui-select')
+                    telescope.load_extension('fzy_native')
+                end
             },
         },
         config = true

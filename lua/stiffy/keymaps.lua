@@ -4,7 +4,7 @@ local telescope = require("telescope.builtin")
 local harpoon = require("harpoon")
 
 -- Telescope
-vim.keymap.set("n", "<leader>FF", telescope.find_files, {})
+vim.keymap.set("n", "<leader>ff", telescope.find_files, {})
 vim.keymap.set("n", "<leader>fg", telescope.live_grep, {})
 vim.keymap.set("n", "<leader>fb", telescope.buffers, {})
 
@@ -20,7 +20,7 @@ vim.keymap.set("n", "<leader>fx", function()
     end
     vim.cmd(vim.api.nvim_replace_termcodes("normal <C-l>", true, true, true))
 end)
-vim.keymap.set("n", "<leader>ff", function()
+vim.keymap.set("n", "<leader>FF", function()
     local harpoon_files = harpoon:list()
 
     local finder = function()
@@ -93,21 +93,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
     end
 })
-
-vim.keymap.set("n", "bn", ":bnext<CR>")
-vim.keymap.set("n", "bN", ":bprevious<CR>")
-
-
-vim.keymap.set("n", "<leader>sj", ":resize -2<CR>")
-vim.keymap.set("n", "<leader>SJ", ":resize -20<CR>")
-
-vim.keymap.set("n", "<leader>sk", ":resize +2<CR>")
-vim.keymap.set("n", "<leader>SK", ":resize +20<CR>")
-
-vim.keymap.set("n", "<leader>sh", ":vertical resize -2<CR>")
-vim.keymap.set("n", "<leader>SH", ":vertical resize -20<CR>")
-
-vim.keymap.set("n", "<leader>SL", ":vertical resize +20<CR>")
-
--- terminal mode shortcuts
-vim.keymap.set("t", "<C-Space>", "<C-\\><C-n>")
