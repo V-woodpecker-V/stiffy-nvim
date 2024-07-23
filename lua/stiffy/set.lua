@@ -1,4 +1,5 @@
 vim.opt.nu = true
+vim.opt.relativenumber = true
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -13,5 +14,9 @@ vim.opt.incsearch = true
 
 vim.opt.scrolloff = 4
 vim.opt.colorcolumn = "130"
+vim.opt.cursorline = true
 
 vim.g.mapleader = " "
+
+vim.opt.termguicolors = true
+vim.opt.showmode = false

@@ -1,5 +1,4 @@
 -- File ops
-
 local telescope = require("telescope.builtin")
 local harpoon = require("harpoon")
 
@@ -7,6 +6,7 @@ local harpoon = require("harpoon")
 vim.keymap.set("n", "<leader>ff", telescope.find_files, {})
 vim.keymap.set("n", "<leader>fg", telescope.live_grep, {})
 vim.keymap.set("n", "<leader>fb", telescope.buffers, {})
+vim.keymap.set("n", "<leader>ft", ":Telescope themes<CR>", {})
 
 -- Harpoon
 vim.keymap.set("n", "<leader>fa", function() harpoon:list():add() end)
@@ -93,3 +93,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
     end
 })
+
+--Hardmode
+-- vim.keymap.set("n", "<Left>", "<Nop>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<Right>", "<Nop>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<Up>", "<Nop>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<Down>", "<Nop>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<BS>", "<Nop>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<Del>", "<Nop>", { noremap = true, silent = true })
+-- 
+-- 
+-- 
+-- vim.keymap.set("i", "<Left>", "<Nop>", { noremap = true, silent = true })
+-- vim.keymap.set("i", "<Right>", "<Nop>", { noremap = true, silent = true })
+-- vim.keymap.set("i", "<Up>", "<Nop>", { noremap = true, silent = true })
+-- vim.keymap.set("i", "<Down>", "<Nop>", { noremap = true, silent = true })

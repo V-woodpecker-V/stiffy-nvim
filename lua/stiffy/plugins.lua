@@ -1,12 +1,31 @@
+local cur_dir = debug.getinfo(1, "S").source:sub(2):match("(.*[\\/])")
+
 local M = {
-    "nvim-tree/nvim-web-devicons",
+    -- Can freely add/remove
+    {
+        "m4xshen/hardtime.nvim",
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            "nvim-lua/plenary.nvim",
+        },
+        opts = {},
+        lazy = false,
+    },
+    {
+        "rktjmp/lush.nvim",
+        lazy = true,
+    },
     {
         "Shatur/neovim-ayu",
-        lazy = false,
-        config = function()
-            vim.cmd([[colorscheme ayu]])
-        end
     },
+    {
+        dir = cur_dir .. "themes/runa",
+    },
+    {
+        dir = cur_dir .. "themes/stiff",
+    },
+    -- Fokin Mandatory
+    "nvim-tree/nvim-web-devicons",
     {
         "windwp/nvim-autopairs",
         event = "InsertEnter",
@@ -177,7 +196,7 @@ local M = {
         },
         opts = {
             options = {
-                theme = "ayu_dark",
+                theme = "auto",
                 icons_enabled = true,
                 component_separators = { left = '', right = '' },
                 section_separators = { left = '', right = '' },
@@ -221,6 +240,7 @@ local M = {
                     "sharkdp/fd",
                     "nvim-telescope/telescope-ui-select.nvim",
                     "nvim-telescope/telescope-fzy-native.nvim",
+                    "andrew-george/telescope-themes"
                 },
                 config = function ()
                     local telescope = require("telescope")
@@ -230,10 +250,17 @@ local M = {
                                 override_generic_sorter = false,
                                 override_file_sorter = true,
                             },
+                            themes = {
+                                enable_previewer = false,
+                                persist = {
+                                    enabled = true
+                                }
+                            }
                         },
                     }
                     telescope.load_extension('ui-select')
                     telescope.load_extension('fzy_native')
+                    telescope.load_extension('themes')
                 end
             },
         },
