@@ -3,15 +3,6 @@ local cur_dir = debug.getinfo(1, "S").source:sub(2):match("(.*[\\/])")
 local M = {
     -- Can freely add/remove
     {
-        "m4xshen/hardtime.nvim",
-        dependencies = {
-            "MunifTanjim/nui.nvim",
-            "nvim-lua/plenary.nvim",
-        },
-        opts = {},
-        lazy = false,
-    },
-    {
         "rktjmp/lush.nvim",
         lazy = true,
     },
