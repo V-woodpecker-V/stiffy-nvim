@@ -219,43 +219,38 @@ local M = {
         end,
     },
     {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            {
-                "nvim-telescope/telescope.nvim",
-                branch = "0.1.x",
-                dependencies = {
-                    "nvim-lua/plenary.nvim",
-                    "sharkdp/fd",
-                    "nvim-telescope/telescope-ui-select.nvim",
-                    "nvim-telescope/telescope-fzy-native.nvim",
-                    "andrew-george/telescope-themes"
-                },
-                config = function ()
-                    local telescope = require("telescope")
-                    telescope.setup {
-                        extensions = {
-                            fzy_native = {
-                                override_generic_sorter = false,
-                                override_file_sorter = true,
-                            },
-                            themes = {
-                                enable_previewer = false,
-                                persist = {
-                                    enabled = true
-                                }
-                            }
-                        },
-                    }
-                    telescope.load_extension('ui-select')
-                    telescope.load_extension('fzy_native')
-                    telescope.load_extension('themes')
-                end
+        "nvim-lua/plenary.nvim",
+        {
+            "nvim-telescope/telescope.nvim",
+            branch = "0.1.x",
+            dependencies = {
+                "nvim-lua/plenary.nvim",
+                "sharkdp/fd",
+                "nvim-telescope/telescope-ui-select.nvim",
+                "nvim-telescope/telescope-fzy-native.nvim",
+                "andrew-george/telescope-themes"
             },
+            config = function()
+                local telescope = require("telescope")
+                telescope.setup {
+                    extensions = {
+                        fzy_native = {
+                            override_generic_sorter = false,
+                            override_file_sorter = true,
+                        },
+                        themes = {
+                            enable_previewer = false,
+                            persist = {
+                                enabled = true
+                            }
+                        }
+                    },
+                }
+                telescope.load_extension('ui-select')
+                telescope.load_extension('fzy_native')
+                telescope.load_extension('themes')
+            end
         },
-        config = true
-    },
+    }
 }
 return M
