@@ -145,15 +145,6 @@ local M = {
                         },
                     }
                 end,
-                ["rust-analyzer"] = function()
-                    require("lspconfig")["rust-analyzer"].setup {
-                        diagnostics = {
-                            enable = true,
-                            disabled = { "warnings" }
-                        },
-                        inlayHints = {enable = false}
-                    }
-                end
             }
         end,
     },

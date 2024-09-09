@@ -49,7 +49,8 @@ local background = hsl(215, 0, 8)
 local foreground = hsl(50, 0, 90)
 local primary = hsl(50, 0, 80)
 local secondary = hsl(0, 50, 50)
-local tertiary = hsl(40, 100, 70)
+local tertiary = hsl(170, 100, 70)
+--local tertiary = hsl(40, 100, 70)
 
 -- LSP/Linters mistakenly show `undefined global` errors in the spec, they may
 -- support an annotation like the following. Consult your server documentation.
