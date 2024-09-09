@@ -35,3 +35,11 @@ vim.cmd [[
     autocmd ColorScheme * highlight Normal guibg=NONE ctermbg=NONE
     autocmd ColorScheme * highlight EndOfBuffer guibg=NONE ctermbg=NONE
 ]]
+
+--  \~~- ~_
+--   ,---( /\
+--   / #~~ _ >>>
+--  /  \ /
+--
+--
+--  Stiffy
