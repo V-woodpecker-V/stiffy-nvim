@@ -45,12 +45,17 @@
 local lush = require('lush')
 local hsl = lush.hsl
 
-local background = hsl(215, 0, 8)
-local foreground = hsl(50, 0, 90)
-local primary = hsl(50, 0, 80)
-local secondary = hsl(0, 50, 50)
-local tertiary = hsl(170, 100, 70)
---local tertiary = hsl(40, 100, 70)
+local black = hsl(215, 0, 8)
+local white = hsl(50, 0, 90)
+local red = hsl(0, 50, 50)
+local blue = hsl(180, 100, 60)
+local gold = hsl(40, 100, 70)
+
+local background = black
+local foreground = white
+local primary = white
+local secondary = red
+local tertiary = blue
 
 -- LSP/Linters mistakenly show `undefined global` errors in the spec, they may
 -- support an annotation like the following. Consult your server documentation.
@@ -179,12 +184,12 @@ local theme = lush(function(injected_functions)
         Macro { PreProc },                                                     --   Same as Define
         PreCondit { PreProc },                                                 --   Preprocessor #if, #else, #endif, etc.
 
-        Type { fg = tertiary.lighten(20).saturate(50) },                       -- (*) int, long, char, etc.
+        Type { fg = primary.lighten(20).saturate(50) },                       -- (*) int, long, char, etc.
         StorageClass { Type },                                                 --   static, register, volatile, etc.
         Structure { Type },                                                    --   struct, union, enum, etc.
         Typedef { Type },                                                      --   A typedef
 
-        Special { fg = tertiary.darken(20).desaturate(10) },                   -- (*) Any special symbol
+        Special { fg = secondary.darken(20).desaturate(10) },                   -- (*) Any special symbol
         SpecialChar { Special },                                               --   Special character in a constant
         Tag { Special },                                                       --   You can use CTRL-] on this
         Delimiter { Special },                                                 --   Character that needs attention
