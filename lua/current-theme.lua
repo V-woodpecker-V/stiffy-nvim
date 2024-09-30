@@ -1,1 +1,1 @@
-vim.cmd("colorscheme runa")
+vim.cmd("colorscheme stiff")

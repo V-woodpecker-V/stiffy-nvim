@@ -45,11 +45,20 @@
 local lush = require('lush')
 local hsl = lush.hsl
 
-local background = hsl(230, 30, 10)
-local foreground = background.lighten(80)
-local primary = hsl(350, 90, 50)
-local secondary = hsl(45, 100, 60)
-local tertiary = hsl(140, 100, 60)
+local dark = hsl(230, 50, 10)
+local light = hsl(230, 50, 90)
+local blue = hsl(180, 100, 60)
+local red = hsl(350, 90, 50)
+local yellow = hsl(60, 100, 60)
+local green = hsl(140, 100, 60)
+
+local background = dark
+local foreground = light
+local warning = red
+local primary = yellow
+local secondary = blue
+local tertiary = green
+
 -- LSP/Linters mistakenly show `undefined global` errors in the spec, they may
 -- support an annotation like the following. Consult your server documentation.
 ---@diagnostic disable: undefined-global
@@ -68,11 +77,12 @@ local theme = lush(function(injected_functions)
         --
         ColorTest1 { fg = background, bg = background },
         ColorTest2 { fg = foreground, bg = foreground },
-        ColorTest3 { fg = primary, bg = primary },
-        ColorTest4 { fg = secondary, bg = secondary },
-        ColorTest5 { fg = tertiary, bg = tertiary },
+        ColorTest3 { fg = warning, bg = warning },
+        ColorTest4 { fg = primary, bg = primary },
+        ColorTest5 { fg = secondary, bg = secondary },
+        ColorTest6 { fg = tertiary, bg = tertiary },
 
-        ColorColumn { fg = background, bg = primary }, -- Columns set with 'colorcolumn'
+        ColorColumn { fg = background, bg = warning }, -- Columns set with 'colorcolumn'
         -- Conceal        { }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
         Cursor { fg = background, bg = foreground },   -- Character under the cursor
         CurSearch { fg = background, bg = primary },   -- Highlighting a search pattern under the cursor (see 'hlsearch')
@@ -88,7 +98,7 @@ local theme = lush(function(injected_functions)
         -- EndOfBuffer    { }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
         TermCursor { Cursor },                                                -- Cursor in a focused terminal
         TermCursorNC { Cursor },                                              -- Cursor in an unfocused terminal
-        ErrorMsg { gui = "italic;underline", fg = foreground, bg = primary }, -- Error messages on the command line
+        ErrorMsg { gui = "italic;underline", fg = background, bg = warning }, -- Error messages on the command line
         VertSplit { ColorColumn },                                            -- Column separating vertically split windows
         -- Folded         { }, -- Line used for closed folds
         -- FoldColumn     { }, -- 'foldcolumn'
@@ -191,7 +201,7 @@ local theme = lush(function(injected_functions)
 
         Underlined { gui = "underline" },                                      -- Text that stands out, HTML links
         Ignore { gui = "italic", fg = Comment.fg },                            -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
-        Error { fg = Normal.fg, bg = primary },                                -- Any erroneous construct
+        Error { fg = Normal.fg, bg = warning },                                -- Any erroneous construct
         Todo { gui = "italic", fg = tertiary },                                -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 
         -- These groups are for the native LSP client and diagnostic system. Some
