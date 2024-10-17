@@ -1,1 +1,1 @@
-vim.cmd("colorscheme stiff")
+vim.cmd("colorscheme ayu-dark")

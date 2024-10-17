@@ -7,6 +7,10 @@ local M = {
         lazy = true,
     },
     {
+        "rktjmp/shipwright.nvim",
+        lazy = true,
+    },
+    {
         "Shatur/neovim-ayu",
     },
     {
@@ -15,12 +19,33 @@ local M = {
     {
         dir = cur_dir .. "themes/stiff",
     },
+    {
+        "declancm/cinnamon.nvim",
+        version = "*",
+        opts = {
+            keymaps = {
+                basic = true,
+                extra = true,
+            },
+            options = {
+                mode = "cursor",
+                max_delta = {
+                    time = 100,
+                }
+            }
+            
+        }
+    },
     -- Fokin Mandatory
     "nvim-tree/nvim-web-devicons",
     {
         "windwp/nvim-autopairs",
         event = "InsertEnter",
-        opts = {},
+        opts = {
+            options = {
+                mode = "cursor"
+            }
+        },
     },
     {
         "hrsh7th/nvim-cmp",
@@ -105,6 +130,10 @@ local M = {
                                 vim.fn.getcwd()
                         end
                     }
+                end,
+                ["gdscript"] = function ()
+                    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+                    
                 end,
                 ["lua_ls"] = function()
                     require("lspconfig")["lua_ls"].setup {

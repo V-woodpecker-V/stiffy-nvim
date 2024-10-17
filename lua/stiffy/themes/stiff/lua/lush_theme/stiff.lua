@@ -45,18 +45,30 @@
 local lush = require('lush')
 local hsl = lush.hsl
 
-local dark = hsl(230, 50, 10)
-local light = hsl(230, 50, 90)
-local blue = hsl(180, 100, 60)
+local black = hsl(230, 50, 10)
 local red = hsl(350, 90, 50)
-local yellow = hsl(60, 100, 60)
-local green = hsl(140, 100, 60)
+local green = hsl(140, 100, 50)
+local yellow = hsl(60, 100, 50)
+local blue = hsl(200, 100, 50)
+local magenta = hsl(330, 100, 60)
+local cyan = hsl(160, 100, 50)
+local white = hsl(200, 90, 90)
 
-local background = dark
-local foreground = light
+
+local bright_black = hsl(230, 50, 30)
+local bright_red = hsl(350, 100, 60)
+local bright_green = hsl(140, 100, 60)
+local bright_yellow = hsl(60, 100, 60)
+local bright_blue = hsl(180, 100, 60)
+local bright_magenta = hsl(330, 100, 60)
+local bright_cyan = hsl(160, 100, 60)
+local bright_white = hsl(200, 90, 100)
+
+local background = black
+local foreground = white
 local warning = red
 local primary = yellow
-local secondary = blue
+local secondary = bright_blue
 local tertiary = green
 
 -- LSP/Linters mistakenly show `undefined global` errors in the spec, they may
@@ -75,12 +87,23 @@ local theme = lush(function(injected_functions)
         --
         -- See :h highlight-groups
         --
-        ColorTest1 { fg = background, bg = background },
-        ColorTest2 { fg = foreground, bg = foreground },
-        ColorTest3 { fg = warning, bg = warning },
-        ColorTest4 { fg = primary, bg = primary },
-        ColorTest5 { fg = secondary, bg = secondary },
-        ColorTest6 { fg = tertiary, bg = tertiary },
+        ColorBlack { fg = black, bg = black },
+        ColorRed { fg = red, bg = red },
+        ColorGreen { fg = green, bg = green },
+        ColorYellow { fg = yellow, bg = yellow },
+        ColorBlue { fg = blue, bg = blue },
+        ColorMagenta { fg = magenta, bg = magenta },
+        ColorCyan { fg = cyan, bg = cyan },
+        ColorWhite { fg = white, bg = white },
+
+        ColorBrightBlack  { fg = bright_black, bg = bright_black },
+        ColorBrightRed  { fg = bright_red, bg = bright_red },
+        ColorBrightGreen  { fg = bright_green, bg = bright_green },
+        ColorBrightYellow  { fg = bright_yellow, bg = bright_yellow },
+        ColorBrightBlue  { fg = bright_blue, bg = bright_blue },
+        ColorBrightMagenta  { fg = bright_magenta, bg = bright_magenta },
+        ColorBrightCyan  { fg = bright_cyan, bg = bright_cyan },
+        ColorBrightWhite  { fg = bright_white, bg = bright_white },
 
         ColorColumn { fg = background, bg = warning }, -- Columns set with 'colorcolumn'
         -- Conceal        { }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
@@ -106,8 +129,8 @@ local theme = lush(function(injected_functions)
         IncSearch { CurSearch },                             -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
         Substitute { IncSearch },                            -- |:substitute| replacement text highlighting
         LineNr { fg = primary },                             -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-        LineNrAbove { LineNr, fg = LineNr.fg.darken(30) },                              -- Line number for when the 'relativenumber' option is set, above the cursor line
-        LineNrBelow { LineNr, fg = LineNr.fg.darken(30) },                              -- Line number for when the 'relativenumber' option is set, below the cursor line
+        LineNrAbove { LineNr, fg = LineNr.fg.darken(30) },   -- Line number for when the 'relativenumber' option is set, above the cursor line
+        LineNrBelow { LineNr, fg = LineNr.fg.darken(30) },   -- Line number for when the 'relativenumber' option is set, below the cursor line
         CursorLineNr { fg = LineNr.fg, bg = CursorLine.bg }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
         -- CursorLineFold { }, -- Like FoldColumn when 'cursorline' is set for the cursor line
         -- CursorLineSign { }, -- Like SignColumn when 'cursorline' is set for the cursor line
@@ -129,11 +152,11 @@ local theme = lush(function(injected_functions)
         PmenuExtra { Pmenu },                                                                     -- Popup menu: Normal item "extra text"
         PmenuExtraSel { PmenuSel },                                                               -- Popup menu: Selected item "extra text"
         PmenuSbar { bg = background },                                                            -- Popup menu: Scrollbar.
-        PmenuThumb { bg = primary },                                                              -- Popup menu: Thumb of the scrollbar.
+        PmenuThumb { fg = background, bg = primary },                                             -- Popup menu: Thumb of the scrollbar.
         Question { gui = "italic", fg = tertiary },                                               -- |hit-enter| prompt and yes/no questions
         QuickFixLine { CurSearch },                                                               -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
         Search { CurSearch },                                                                     -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
-        SpecialKey { gui = "italic", fg = tertiary },                                           -- Unprintable characters: text displayed differently from what it really is. But not 'listchars' whitespace. |hl-Whitespace|
+        SpecialKey { gui = "italic", fg = tertiary },                                             -- Unprintable characters: text displayed differently from what it really is. But not 'listchars' whitespace. |hl-Whitespace|
         SpellBad { gui = "italic;underline" },                                                    -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
         SpellCap { SpellBad },                                                                    -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
         SpellLocal { SpellBad },                                                                  -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
@@ -147,7 +170,7 @@ local theme = lush(function(injected_functions)
         Visual { CurSearch },                                                                     -- Visual mode selection
         VisualNOS { fg = Visual.bg },                                                             -- Visual mode selection when vim is "Not Owning the Selection".
         WarningMsg { fg = primary },                                                              -- Warning messages
-        Whitespace { gui = "italic", fg = tertiary },                                           -- "nbsp", "space", "tab" and "trail" in 'listchars'
+        Whitespace { gui = "italic", fg = tertiary },                                             -- "nbsp", "space", "tab" and "trail" in 'listchars'
         Winseparator { ColorColumn },                                                             -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
         WildMenu { gui = "italic", CurSearch },                                                   -- Current match in 'wildmenu' completion
         -- WinBar         { }, -- Window bar of current window
@@ -163,17 +186,17 @@ local theme = lush(function(injected_functions)
 
         Comment { gui = "italic", fg = Normal.bg.lighten(40).desaturate(40) }, -- Any comment
 
-        Constant { fg = secondary.saturate(30).darken(20) },                                             -- (*) Any constant
+        Constant { fg = secondary.saturate(30).darken(20) },                   -- (*) Any constant
         String { Constant },                                                   --   A string constant: "this is a string"
         Character { Constant },                                                --   A character constant: 'c', '\n'
         Number { Constant },                                                   --   A number constant: 234, 0xff
         Boolean { Constant },                                                  --   A boolean constant: TRUE, false
         Float { Constant },                                                    --   A floating point constant: 2.3e10
 
-        Identifier { fg = primary },                                                 -- (*) Any variable name
+        Identifier { fg = primary },                                           -- (*) Any variable name
         Function { Identifier },                                               --   Function name (also: methods for classes)
 
-        Statement { fg = secondary.saturate(70) },                                            -- (*) Any statement
+        Statement { fg = secondary.saturate(70) },                             -- (*) Any statement
         Conditional { Statement },                                             --   if, then, else, endif, switch, etc.
         Repeat { Statement },                                                  --   for, do, while, etc.
         Label { Statement },                                                   --   case, default, etc.
@@ -181,18 +204,18 @@ local theme = lush(function(injected_functions)
         Keyword { Statement },                                                 --   any other keyword
         Exception { Statement },                                               --   try, catch, throw
 
-        PreProc { fg = tertiary },                                            -- (*) Generic Preprocessor
+        PreProc { fg = tertiary },                                             -- (*) Generic Preprocessor
         Include { PreProc },                                                   --   Preprocessor #include
         Define { PreProc },                                                    --   Preprocessor #define
         Macro { PreProc },                                                     --   Same as Define
         PreCondit { PreProc },                                                 --   Preprocessor #if, #else, #endif, etc.
 
-        Type { fg = tertiary.lighten(20).saturate(50) },                                               -- (*) int, long, char, etc.
+        Type { fg = tertiary.lighten(20).saturate(50) },                       -- (*) int, long, char, etc.
         StorageClass { Type },                                                 --   static, register, volatile, etc.
         Structure { Type },                                                    --   struct, union, enum, etc.
         Typedef { Type },                                                      --   A typedef
 
-        Special { fg = tertiary.darken(20).desaturate(10) },                                           -- (*) Any special symbol
+        Special { fg = tertiary.darken(20).desaturate(10) },                   -- (*) Any special symbol
         SpecialChar { Special },                                               --   Special character in a constant
         Tag { Special },                                                       --   You can use CTRL-] on this
         Delimiter { Special },                                                 --   Character that needs attention

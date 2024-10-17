@@ -27,7 +27,35 @@ vim.keymap.set("n", "<leader>cdd", function()
 end, { noremap = true, silent = true })
 
 -- LSP
-vim.keymap.set("n", "<leader>fs", vim.lsp.buf.format, {})
+vim.keymap.set("n", "<leader>fs", function()
+    local function default_format()
+        vim.lsp.buf.format()
+    end
+
+    if vim.bo.filetype ~= "cs" then
+        return default_format()
+    end
+
+    -- C# workaround
+
+    local workspace_folders = vim.lsp.buf.list_workspace_folders()
+    local root_dir = workspace_folders[1] or vim.fn.getcwd()
+
+    local function find_file_in_dir(dir, pattern)
+        local files = vim.fn.glob(dir .. "/" .. pattern, false, true)
+        return #files > 0 and files[1] or nil
+    end
+    local root_file = find_file_in_dir(root_dir, "*.sln")
+    if not root_file then
+        root_file = find_file_in_dir(root_dir, "*.csproj")
+    end
+    if not root_file then
+        return default_format()
+    end
+
+    vim.cmd("!dotnet format " .. root_file)
+end, {})
+
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, {})
 
@@ -56,9 +84,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- vim.keymap.set("n", "<Down>", "<Nop>", { noremap = true, silent = true })
 -- vim.keymap.set("n", "<BS>", "<Nop>", { noremap = true, silent = true })
 -- vim.keymap.set("n", "<Del>", "<Nop>", { noremap = true, silent = true })
--- 
--- 
--- 
+--
+--
+--
 -- vim.keymap.set("i", "<Left>", "<Nop>", { noremap = true, silent = true })
 -- vim.keymap.set("i", "<Right>", "<Nop>", { noremap = true, silent = true })
 -- vim.keymap.set("i", "<Up>", "<Nop>", { noremap = true, silent = true })
