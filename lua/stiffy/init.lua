@@ -36,11 +36,6 @@ vim.cmd [[
     autocmd ColorScheme * highlight EndOfBuffer guibg=NONE ctermbg=NONE
 ]]
 
-local godot_project_file = vim.fn.getcwd() .. "/project.godot"
-if godot_project_file then
-    vim.fn.serverstart("\\\\.\\pipe\\godot.pipe")
-end
-
 --  \~~- ~_
 --   ,---( /\
 --   / #~~ _ >>>

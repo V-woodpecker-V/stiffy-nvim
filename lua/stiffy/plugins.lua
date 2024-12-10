@@ -131,10 +131,6 @@ local M = {
                         end
                     }
                 end,
-                ["gdscript"] = function ()
-                    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-                    
-                end,
                 ["lua_ls"] = function()
                     require("lspconfig")["lua_ls"].setup {
                         settings = {
