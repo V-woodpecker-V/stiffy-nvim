@@ -5,6 +5,7 @@ local M = {
     },
     {
         "declancm/cinnamon.nvim",
+        event = "VeryLazy",
         version = "*",
         opts = {
             keymaps = {
@@ -112,6 +113,7 @@ local M = {
     },
     {
         "theHamsta/nvim-dap-virtual-text",
+        event = "VeryLazy",
         dependencies = {
             "rcarriga/nvim-dap",
             "nvim-treesitter/nvim-treesitter",
@@ -314,6 +316,7 @@ local M = {
     },
     {
         "nvim-treesitter/nvim-treesitter",
+        event = "BufReadPost",
         build = ":TSUpdate",
         config = function()
             local configs = require("nvim-treesitter.configs")
@@ -398,6 +401,7 @@ local M = {
     {
         "nvim-telescope/telescope.nvim",
         branch = "0.1.x",
+        event = "VeryLazy",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "sharkdp/fd",
