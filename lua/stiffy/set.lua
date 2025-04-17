@@ -24,6 +24,8 @@ vim.opt.showmode = false
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+vim.opt.clipboard = "unnamedplus"
+
 -- Powershell
 --vim.o.shell = "pwsh"
 --vim.o.shellcmdflag =
