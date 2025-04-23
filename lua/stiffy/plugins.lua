@@ -4,6 +4,9 @@ local M = {
         "Shatur/neovim-ayu",
     },
     {
+        "RRethy/base16-nvim"
+    },
+    {
         "declancm/cinnamon.nvim",
         event = "VeryLazy",
         version = "*",
@@ -352,7 +355,7 @@ local M = {
             })
 
             vim.api.nvim_create_autocmd("LspAttach", {
-                callback = function (args)
+                callback = function(args)
                     local client = vim.lsp.get_client_by_id(args.data.client_id)
                     if client and client.server_capabilities.selectionRangeProvider then
                         vim.cmd("TSBufDisable highlight")
@@ -361,7 +364,7 @@ local M = {
             })
 
             vim.api.nvim_create_autocmd("LspDetach", {
-                callback = function ()
+                callback = function()
                     vim.cmd("TSBufEnable highlight")
                 end
             })
