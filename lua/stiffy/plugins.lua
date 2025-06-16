@@ -1,6 +1,9 @@
 local M = {
     -- Can freely add/remove
     {
+        "github/copilot.vim",
+    },
+    {
         "Shatur/neovim-ayu",
     },
     {
@@ -59,6 +62,12 @@ local M = {
         },
     },
     {
+        "leoluz/nvim-dap-go",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+        }
+    },
+    {
         "mfussenegger/nvim-dap",
         config = function()
             local dap = require("dap")
@@ -74,10 +83,11 @@ local M = {
             vim.fn.sign_define('DapLogPoint', { text = '◆', texthl = 'Title', linehl = '', numhl = '' })
             vim.fn.sign_define('DapStopped', { text = '→', texthl = 'Identifier', linehl = 'Visual', numhl = 'Debug' })
 
-            vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, {})
-            vim.keymap.set("n", "<S-CR>", dap.continue, {})
-            vim.keymap.set("n", "<S-Right>", dap.step_over, {})
-            vim.keymap.set("n", "<S-Down>", dap.step_into, {})
+            vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, { desc = "toggle breakpoint" })
+            vim.keymap.set("n", "<C-c>", dap.continue, { desc = "debug continue" })
+            vim.keymap.set("n", "<C-k>", dap.step_out, { desc = "debug step out" })
+            vim.keymap.set("n", "<C-j>", dap.step_over, { desc = "debug step over" })
+            vim.keymap.set("n", "<C-h>", dap.step_into, { desc = "debug step into" })
         end
     },
     {
@@ -108,10 +118,10 @@ local M = {
                 dapui.close()
             end
 
-            vim.keymap.set("n", "<S-Up>", require("dapui").toggle, {})
-            vim.keymap.set("n", "<leader>w", function()
+            vim.keymap.set("n", "<leader>du", require("dapui").toggle, { desc = "debug ui" })
+            vim.keymap.set("n", "<leader>dw", function()
                 dapui.elements.watches.add(vim.fn.expand("<cword>"))
-            end, {})
+            end, { desc = "debug watch variable" })
         end
     },
     {
@@ -124,30 +134,30 @@ local M = {
         opts = {}
     },
     {
-        {
-            "nvim-neotest/neotest",
-            dependencies = {
-                "nvim-neotest/nvim-nio",
-                "nvim-lua/plenary.nvim",
-                "antoinemadec/FixCursorHold.nvim",
-                "nvim-treesitter/nvim-treesitter",
-                "Issafalcon/neotest-dotnet"
-            },
-            config = function()
-                require("neotest").setup({
-                    adapters = {
-                        require("neotest-dotnet")({
-                            dap = {
-                                args = {
-                                    justMyCode = false,
-                                },
-                                console = "internalConsole",
-                            },
-                        }),
-                    }
-                })
-            end
+        "nvim-neotest/neotest",
+        dependencies = {
+            "nvim-neotest/nvim-nio",
+            "nvim-lua/plenary.nvim",
+            "antoinemadec/FixCursorHold.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "Issafalcon/neotest-dotnet",
+            "fredrikaverpil/neotest-golang",
         },
+        config = function()
+            require("neotest").setup({
+                adapters = {
+                    require("neotest-dotnet")({
+                        dap = {
+                            args = {
+                                justMyCode = false,
+                            },
+                            console = "internalConsole",
+                        },
+                    }),
+                    require("neotest-golang")
+                }
+            })
+        end
     },
     -- Fokin Mandatory
     "nvim-tree/nvim-web-devicons",
@@ -230,10 +240,10 @@ local M = {
             local function custom_on_attach()
                 vim.keymap.set("n", "<leader>fs", function()
                     vim.lsp.buf.format()
-                end, {})
+                end, { desc = "format" })
 
-                vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
-                vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, {})
+                --                vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "code action" })
+                vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "show error/tooltip" })
 
                 vim.api.nvim_create_autocmd("LspAttach", {
                     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -241,15 +251,23 @@ local M = {
                         vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
                         local key_opts = { buffer = ev.buf }
-                        vim.keymap.set("n", "gd", vim.lsp.buf.definition, key_opts)
-                        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, key_opts)
-                        vim.keymap.set("n", "gr", vim.lsp.buf.references, key_opts)
-                        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, key_opts)
-                        vim.keymap.set("n", "K", vim.lsp.buf.hover, key_opts)
+                        vim.keymap.set("n", "gd", vim.lsp.buf.definition,
+                            vim.tbl_extend('error', key_opts, { desc = "go to definition" }))
+                        vim.keymap.set("n", "gD", vim.lsp.buf.declaration,
+                            vim.tbl_extend('error', key_opts, { desc = "go to declaration" }))
+                        vim.keymap.set("n", "gr", vim.lsp.buf.references,
+                            vim.tbl_extend('error', key_opts, { desc = "go to references" }))
+                        vim.keymap.set("n", "gi", vim.lsp.buf.implementation,
+                            vim.tbl_extend('error', key_opts, { desc = "go to implementation" }))
+                        vim.keymap.set("n", "K", vim.lsp.buf.hover,
+                            vim.tbl_extend('error', key_opts, { desc = "show hover" }))
 
-                        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, key_opts)
-                        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, key_opts)
-                        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, key_opts)
+                        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help,
+                            vim.tbl_extend('error', key_opts, { desc = "signature help" }))
+                        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename,
+                            vim.tbl_extend('error', key_opts, { desc = "rename" }))
+                        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
+                            vim.tbl_extend('error', key_opts, { desc = "code action" }))
                     end
                 })
             end
@@ -269,6 +287,7 @@ local M = {
                                 lspconfig.util.root_pattern("package.json")(vim.fn.getcwd()) or
                                 lspconfig.util.root_pattern("pyright.json")(vim.fn.getcwd()) or
                                 lspconfig.util.root_pattern("Cargo.toml")(vim.fn.getcwd()) or
+                                lspconfig.util.root_pattern("go.mod")(vim.fn.getcwd()) or
                                 vim.fn.getcwd()
                         end
                     }
@@ -446,23 +465,23 @@ local M = {
 
             local custom_pickers = require("stiffy.pickers")
             -- Keymaps
-            vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
-            vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
-            vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
-            vim.keymap.set("n", "<leader>FT", ":Telescope themes<CR>", {})
+            vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "file picker" })
+            vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "grep picker" })
+            vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "buffer picker" })
+            vim.keymap.set("n", "<leader>FT", ":Telescope themes<CR>", { desc = "themes picker" })
 
             vim.keymap.set("n", "<leader>FF", function()
                 telescope.extensions.file_browser.file_browser({
                     path = "%:p:h",
                     select_buffer = true
                 })
-            end, { noremap = true })
+            end, { noremap = true, desc = "file tree picker" })
 
             vim.keymap.set("n", "<leader>fp", function()
                 telescope.extensions.lazy_plugins.lazy_plugins({
                     initial_mode = "insert"
                 })
-            end, { noremap = true })
+            end, { noremap = true, desc = "plugin picker" })
 
 
             local neotest = require("neotest")
@@ -491,7 +510,7 @@ local M = {
                     initial_mode = "insert",
                     close_on_action = true
                 }
-            ), { noremap = true })
+            ), { noremap = true, desc = "test action picker" })
         end
     },
 }

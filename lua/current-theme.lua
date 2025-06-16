@@ -1,1 +1,1 @@
-vim.cmd("colorscheme base16-equilibrium-gray-dark")
+vim.cmd("colorscheme base16-selenized-black")
